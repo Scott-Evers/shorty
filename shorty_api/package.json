@@ -6,7 +6,7 @@
   "exports": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
+    "dev": "set -x PORT 5002; nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
     "ts:build": "rm -rf ./dist && tsc",
     "prestart": "npm run ts:build",
     "start": "node ./dist/index.js"

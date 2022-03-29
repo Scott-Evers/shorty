@@ -3,7 +3,8 @@ import url from './routers/url'
 import { validate_token } from './auth'
 
 const app = express()
-const PORT = 50000
+const PORT = process.env.PORT || 5002
+console.log(process.env.PORT)
 const API_VERSION = '/api/v0/'
 
 
