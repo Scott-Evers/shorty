@@ -3,7 +3,7 @@ import { find } from './lookupDev.js'
 
 
 const app = express()
-const PORT = 50001
+const PORT = 5003
 
 
 app.get('/:token',find)

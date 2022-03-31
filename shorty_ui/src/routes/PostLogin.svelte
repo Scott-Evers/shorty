@@ -1,22 +1,14 @@
 <script lang="ts">
-  import {getContext, setContext} from 'svelte'
+  import {id_token} from '../store'
 
-	let session_id = document.cookie
-		.split('; ')
-		.find(row => row.startsWith('session_id='))
-		.split('=')[1]
-		
+	
 	//read querystring and store context if returning from idp
 	const params = (new URL(window.location.href.replace('#','?'))).searchParams;
-	// params.forEach((val: String, key: String) => {
-	// 		console.log(`key: ${key}\r\nvalue: ${val}`)
-	// 	})
-
+		
+	let session_id 	= localStorage.getItem('session_id')
 	let state = params.get('state')
-	console.log(`state: ${state}\r\nsession_id: ${session_id}`)
 	if (state == session_id) {
-		document.cookie = `id_token=${params.get('id_token')}; path=/`
-		console.log(document.cookie)
+		id_token.set(params.get('id_token'))
 		window.location.href = '/admin'
 	}
 </script>

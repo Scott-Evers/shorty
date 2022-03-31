@@ -1,1 +1,23 @@
-[{"id":"118b6f5a-d0f7-4a27-a9d0-e99875279479","host":"localhost","token":"goog","target":"https://google.com/","permissions":[]},{"id":"e1ce4657-4bf2-456c-b41f-ee33d7db8394","host":"localhost","token":"involta","target":"https://www.involta.com/","permissions":[]},{"id":"06ce9e8b-4dd5-4eff-8274-337a070d594a","host":"localhost","token":"yhoo","target":"https://yahoo.com","permissions":[{"type":0,"id":"12345","operation":1}]}]
+[
+  {
+    "id": "118b6f5a-d0f7-4a27-a9d0-e99875279479",
+    "host": "localhost:5003",
+    "token": "goog",
+    "target": "https://google.com/",
+    "permissions": []
+  },
+  {
+    "id": "e1ce4657-4bf2-456c-b41f-ee33d7db8394",
+    "host": "localhost:5003",
+    "token": "involta",
+    "target": "https://www.involta.com/",
+    "permissions": []
+  },
+  {
+    "id": "06ce9e8b-4dd5-4eff-8274-337a070d594a",
+    "host": "localhost:5003",
+    "token": "yhoo",
+    "target": "https://yahoo.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
+  }
+]

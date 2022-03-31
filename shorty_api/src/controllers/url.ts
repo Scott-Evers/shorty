@@ -10,6 +10,7 @@ const get_owned_urls = (req: express.Request, res: express.Response) => {
   let groups: Array<string> = req.headers['groups'] as Array<string>
   try {
     let urls: Array<Url> = model.get_owned_urls(user, groups)
+    console.log(urls)
     res.send(JSON.stringify(urls))
   }
   catch (err) {
