@@ -1,5 +1,37 @@
-{
-  "localhost": {
-    "goog": "https://google.com"
+[
+  {
+    "id": "06ce9e8b-4dd5-4eff-8274-337a070d5942",
+    "host": "localhost:5003",
+    "token": "yhoo",
+    "target": "https://yahoo.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
+  },
+  {
+    "id": "06ce9e8b-4dd5-4eff-8274-337a070d5943",
+    "host": "localhost:5003",
+    "token": "yhoo",
+    "target": "https://yahoo.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
+  },
+  {
+    "id": "06ce9e8b-4dd5-4eff-8274-337a070d5944",
+    "host": "localhost:5003",
+    "token": "yhoo",
+    "target": "https://yahoo.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
+  },
+  {
+    "id": "06ce9e8b-4dd5-4eff-8274-337a070d5945",
+    "host": "localhost:5003",
+    "token": "yhoo",
+    "target": "https://yahoo.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
+  },
+  {
+    "id": "1574ae2a-2f9c-4701-9d29-f19166eab338",
+    "host": "localhost",
+    "token": "qwer",
+    "target": "http://google.com",
+    "permissions": [{ "type": 0, "id": "12345", "operation": 1 }]
   }
-}
+]

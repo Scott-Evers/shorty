@@ -1,6 +1,7 @@
 <script lang="ts">
   import axios from 'axios'
   import { createEventDispatcher } from 'svelte'
+  import { AlertModesEnum, AlertSeverityLevelsEnum } from '../types/types'
   
   const dispatch = createEventDispatcher()
 
@@ -8,17 +9,42 @@
   const API_BASE = process.env.API_BASE
   const PROTOCOL = process.env.PROTOCOL
 
-  let url_p = axios.get(`${API_BASE}/url`, {
-    headers: {
-      'Bearer': id_token
-    }
-  })
+  const get_urls = (): Promise<any> => {
+    console.log('fetching urls')
+    return axios.get(`${API_BASE}/url`, {
+      headers: {
+        'Bearer': id_token
+      }
+    })
+  }
+  let url_p
+  $: url_p = get_urls()
 
   const short_url = (host: string, token: string): string => {
     return `${PROTOCOL}://${host}/${token}`
   }
+
+  const edit_item = (e) => {
+    console.log(`editing item: ${e}`)
+    dispatch('edit',e)
+  }  
+  const delete_item = (e) => {
+    dispatch('alert',{
+      message: 'deleting...',
+      mode: AlertModesEnum.Pending,
+    })
+    axios.delete(`${API_BASE}/url/${e}`).then(() => {
+      dispatch('alert', {
+        message: 'Success',
+        mode: AlertModesEnum.Final,
+        severity: AlertSeverityLevelsEnum.Info 
+      })
+      url_p = get_urls()
+    })
+    console.log(`delete_item called with ${e}`)
+    //axios.delete()
+  }
 </script>
-{id_token}
 
 {#await url_p}
   <div class="waiting">waiting</div>
@@ -26,10 +52,12 @@
 <div class="urls">
     {#each urls.data as url}
       <div class="url">
-        <button class="material-icons md-24 md-light edit-button"
-              on:click={() => dispatch('edit',url.id)}>edit</button>
+        <button class="material-icons md-24 md-light"
+              on:click={() => edit_item(url)}>edit</button>
         <div><a href="{short_url(url.host,url.token)}" target="_new">{short_url(url.host,url.token)}</a></div>
         <div><a href="{url.target}" target="_new">{url.target}</a></div>
+        <button class="material-icons md-24 md-light"
+              on:click={() => delete_item(url.id)}>delete</button>
       </div>
     {/each}
   </div>

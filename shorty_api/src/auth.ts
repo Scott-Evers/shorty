@@ -12,6 +12,6 @@ export const validate_token = (req : express.Request, res : express.Response, ne
     next()
   }
   else {
-    res.status(401).send('Credentials could not be validated')
+    res.status(401).send('Credentials could not be validated') 
   }
 }

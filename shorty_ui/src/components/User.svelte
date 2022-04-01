@@ -1,5 +1,5 @@
 <script lang="ts">
-import type { LoggedInUser } from "../types/types";
+import type { LoggedInUserType} from "../types/types";
 
 
   export let user: LoggedInUser

@@ -1,9 +1,14 @@
 <script lang="ts">
   import User from '../components/User.svelte'
   import Urls from '../components/Urls.svelte'
+  import Url from '../components/Url.svelte'
+  import Alert from '../components/Alert.svelte'
 
-  import type { LoggedInUser } from '../types/types';
+  import type { AlertType, LoggedInUserType, UrlType } from '../types/types';
+  import { AlertModesEnum, AlertSeverityLevelsEnum } from '../types/types'
 
+  let alert: AlertType
+  let url: UrlType
   enum page_modes {
     View,
     Edit,
@@ -12,27 +17,40 @@
   let page_mode: page_modes = page_modes.View
   let id_token = localStorage.getItem('id_token')
   let token_body = JSON.parse(atob(id_token.split('.')[1]))
-  let user: LoggedInUser = {
+  let user: LoggedInUserType = {
     id_token: id_token,
     id: token_body.sub,
     email: token_body.email,
     full_name: `${token_body.given_name} ${token_body.family_name}`,
     initials: `${token_body.given_name.substring(0,1).toUpperCase()}${token_body.family_name.substring(0,1).toUpperCase()}`,
   }
+  console.log('page mode: ', page_mode)
 
-  const edit_item = (id: string): void => {
+  // event handlers to modify page layout
+  const handle_edit = (e: CustomEvent<UrlType>): any => {
+    url = e.detail
     page_mode = page_modes.Edit
-    console.log(`Editing url: ${id}`)
+    console.log(`Editing url: ${e.detail.id}`)
   }
-  const create_item = (): void => {
+  const handle_create = (): any => {
+    url = { id: '', host: '', token: '', target: '', permissions: []}
     page_mode = page_modes.Create
     console.log(`Creating new url`)
   }
-  const delete_item = (id: string): void => {
-    page_mode = page_modes.View
+  const handle_delete = (id: string): any => {
     console.log(`Deleting url: ${id}`)
   }
-  console.log(token_body)
+  const handle_alert = (e: CustomEvent<AlertType>): any => {
+    console.log(e)
+    alert = e.detail
+    console.log(`alert: ${JSON.stringify(alert)}`)
+  }
+  const handle_close = (e: CustomEvent<any>): any => {
+    console.log('closing alert')
+    alert = null
+  }
+  
+  
 </script>
 
 <main>
@@ -41,12 +59,15 @@
     <User user={user} />
   </header>
   {#if page_mode == page_modes.View}
-  <Urls id_token={user.id_token} on:edit={edit_item}></Urls>
-  {:else if page_mode == page_modes.Edit}
-  <div>editing</div>
+  <button on:click={handle_create}>Add URL</button>
+  <Urls id_token={user.id_token} on:edit={handle_edit} on:alert={handle_alert}></Urls>
   {:else}
-  <div>creating</div>
+  <Url url={url} id_token={user.id_token} on:done={() => page_mode = page_modes.View } on:alert={handle_alert} />
   {/if}
+  {#if alert}
+  <Alert on:close={handle_close} bind:severity={alert.severity} bind:mode={alert.mode}>{alert.message}</Alert>
+  {/if}
+  
 </main>
 
 <style>

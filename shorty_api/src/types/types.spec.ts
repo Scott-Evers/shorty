@@ -1,4 +1,4 @@
-export interface Url {
+export interface UrlType{
   id: string,
   host: string,
   token: string,
