@@ -1,7 +1,7 @@
 import express from 'express'
 import cors from 'cors'
-import url from './routers/url'
-import { validate_token } from './auth'
+import url from './routers/url.js'
+import { validate_token } from './auth.js'
 
 const app = express()
 const PORT = process.env.PORT || 5002

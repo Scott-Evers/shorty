@@ -1,4 +1,4 @@
-import {UrlType, Principal_Types, Permission} from '../types/types.spec'
+import {UrlType, Principal_Types, Permission} from '../types/types.spec.js'
 import {v4 as uuid} from 'uuid'
 import { createClient, RedisClientType } from 'redis'
 

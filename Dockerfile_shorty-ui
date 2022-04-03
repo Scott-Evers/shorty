@@ -1,0 +1,18 @@
+FROM alpine:3.13.2
+
+
+RUN apk add thttpd
+
+
+RUN adduser -D static
+COPY --chown=static:static ./shorty_ui/public/ /app/
+
+
+USER static
+WORKDIR /app/
+
+
+EXPOSE 3000
+CMD ["thttpd", "-D", "-h", "0.0.0.0", "-p", "3000", "-d", "/app", "-u", "static", "-l", "-", "-M", "60"]
+
+

@@ -1,9 +1,9 @@
 import express from 'express'
-import model from '../models/dev'
+import model from '../models/dev.js'
 import {UrlType, 
         Permission, 
         Principal_Types, 
-        Operation_Types} from '../types/types.spec'
+        Operation_Types} from '../types/types.spec.js'
 
 const get_owned_urls = (req: express.Request, res: express.Response) => {
   let user: string = req.headers['user'] as string

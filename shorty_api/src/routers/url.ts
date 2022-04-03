@@ -1,5 +1,5 @@
 import express from 'express'
-import url from '../controllers/url'
+import url from '../controllers/url.js'
 const router = express.Router()
 
 router.use(express.json());

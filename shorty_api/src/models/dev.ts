@@ -1,4 +1,4 @@
-import {UrlType} from '../types/types.spec'
+import {UrlType} from '../types/types.spec.js'
 import fs from 'fs'
 import {v4 as uuid} from 'uuid'
 

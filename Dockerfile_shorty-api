@@ -1,0 +1,11 @@
+FROM node:alpine
+
+COPY ./shorty_api/dist/ /app/
+COPY ./shorty_api/package.json /app/
+COPY ./shorty_api/urls.dev.json /app/
+
+WORKDIR /app/
+
+RUN npm install --production
+EXPOSE 5002
+CMD ["node", "index.js"]

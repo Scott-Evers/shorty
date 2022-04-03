@@ -5,13 +5,14 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon  --exec 'node --experimental-json-modules index.js'"
+    "dev": "set -x REDIS_URL \"redis://localhost:6379\"; nodemon  --exec 'node --experimental-json-modules index.js'"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.3"
+    "express": "^4.17.3",
+    "redis": "^4.0.6"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"
