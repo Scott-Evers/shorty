@@ -7,6 +7,7 @@
   "type": "module",
   "scripts": {
     "dev": "set -x PORT 5002; nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
+    "sbx": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/sandbox.ts",
     "ts:build": "rm -rf ./dist && tsc",
     "prestart": "npm run ts:build",
     "start": "node ./dist/index.js"
@@ -17,6 +18,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "redis": "^4.0.6",
     "uuid": "^8.3.2"
   },
   "devDependencies": {

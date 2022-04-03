@@ -3,6 +3,8 @@
   import Urls from '../components/Urls.svelte'
   import Url from '../components/Url.svelte'
   import Alert from '../components/Alert.svelte'
+  import id_token from '../stores/id_token'
+  import urls from '../stores/urls'
 
   import type { AlertType, LoggedInUserType, UrlType } from '../types/types';
   import { AlertModesEnum, AlertSeverityLevelsEnum } from '../types/types'
@@ -15,10 +17,9 @@
     Create,
   }
   let page_mode: page_modes = page_modes.View
-  let id_token = localStorage.getItem('id_token')
-  let token_body = JSON.parse(atob(id_token.split('.')[1]))
+  let token_body = JSON.parse(atob($id_token.split('.')[1]))
   let user: LoggedInUserType = {
-    id_token: id_token,
+    id_token: $id_token,
     id: token_body.sub,
     email: token_body.email,
     full_name: `${token_body.given_name} ${token_body.family_name}`,

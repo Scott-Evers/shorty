@@ -1,7 +1,8 @@
 <script lang="ts">
   import axios from 'axios'
   import { createEventDispatcher } from 'svelte'
-  import { AlertModesEnum, AlertSeverityLevelsEnum } from '../types/types'
+  import { AlertModesEnum, AlertSeverityLevelsEnum, UrlType } from '../types/types'
+  import urls from '../stores/urls'
   
   const dispatch = createEventDispatcher()
 
@@ -9,17 +10,34 @@
   const API_BASE = process.env.API_BASE
   const PROTOCOL = process.env.PROTOCOL
 
-  const get_urls = (): Promise<any> => {
-    console.log('fetching urls')
-    return axios.get(`${API_BASE}/url`, {
-      headers: {
-        'Bearer': id_token
-      }
-    })
+  let search: string = ''
+  let filtered_urls: Array<UrlType> = []
+  $: {
+    if (search) {
+      filtered_urls = $urls.filter((url: UrlType) => 
+        url.host.toLowerCase().includes(search.toLowerCase()) ||
+        url.token.toLowerCase().includes(search.toLowerCase()) ||
+        url.target.toLowerCase().includes(search.toLowerCase()))
+      console.log(filtered_urls)
+    } else {
+      filtered_urls = $urls
+    }
   }
-  let url_p
-  $: url_p = get_urls()
 
+  axios.get(`${API_BASE}/url`, {
+    headers: {
+      'Bearer': id_token
+    }
+  }).then(u => {
+      console.log(u)
+      urls.set(u.data)
+    }).catch(err => dispatch('alert', {
+    message: `Unable to fetch urls for user: ${err.message}`,
+    mode: AlertModesEnum.Final,
+    timeout: 2500,
+    severity: AlertSeverityLevelsEnum.Error
+  }))
+  
   const short_url = (host: string, token: string): string => {
     return `${PROTOCOL}://${host}/${token}`
   }
@@ -39,18 +57,15 @@
         mode: AlertModesEnum.Final,
         severity: AlertSeverityLevelsEnum.Info 
       })
-      url_p = get_urls()
     })
     console.log(`delete_item called with ${e}`)
     //axios.delete()
   }
 </script>
 
-{#await url_p}
-  <div class="waiting">waiting</div>
-{:then urls}
 <div class="urls">
-    {#each urls.data as url}
+    <input type="text" placeholder="Search URLs" bind:value={search}>
+    {#each filtered_urls as url}
       <div class="url">
         <button class="material-icons md-24 md-light"
               on:click={() => edit_item(url)}>edit</button>
@@ -61,9 +76,6 @@
       </div>
     {/each}
   </div>
-{:catch err}
-  {err}
-{/await}
 
 
 <style>
