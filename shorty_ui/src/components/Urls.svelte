@@ -51,14 +51,25 @@
       message: 'deleting...',
       mode: AlertModesEnum.Pending,
     })
-    axios.delete(`${API_BASE}/url/${e}`).then(() => {
+    axios.delete(`${API_BASE}/url/${e}`, {
+    headers: {
+      'Bearer': id_token
+    }
+  }).then(() => {
       dispatch('alert', {
         message: 'Success',
         mode: AlertModesEnum.Final,
         severity: AlertSeverityLevelsEnum.Info 
       })
+    }).catch((err) => {
+      console.error(err)
+      dispatch('alert', {
+        message: 'Deletion failed',
+        mode: AlertModesEnum.Final,
+        timeout: 2500,
+        severity: AlertSeverityLevelsEnum.Error,
+      })
     })
-    console.log(`delete_item called with ${e}`)
     //axios.delete()
   }
 </script>

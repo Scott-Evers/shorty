@@ -1,4 +1,4 @@
-import {UrlType} from '../types/types.spec.js'
+import {UrlType, Principal_Types} from '../types/types.spec.js'
 import fs from 'fs'
 import {v4 as uuid} from 'uuid'
 
@@ -10,7 +10,7 @@ const save_url = (update: boolean, url: UrlType) => {
 }
 
 const get_owned_urls = (user: any, groups: any): Array<UrlType>  => {
-    return urls
+    return urls.filter(url => url.permissions.filter(perm => perm.type == Principal_Types.User && perm.id == user).length > 0)
 }
 
 const create_url = (url : UrlType) : string => {

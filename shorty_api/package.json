@@ -6,7 +6,7 @@
   "exports": "./dist/index.js",
   "type": "module",
   "scripts": {
-    "dev": "set -x PORT 5002; nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
+    "dev": "set -x PORT 5002; set -x AWS_REGION us-east-1; nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/index.ts",
     "sbx": "nodemon --watch './**/*.ts' --exec 'node --experimental-specifier-resolution=node --loader ts-node/esm' src/sandbox.ts",
     "ts:build": "rm -rf ./dist && tsc",
     "prestart": "npm run ts:build",
@@ -16,8 +16,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.5",
     "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "jwk-to-pem": "^2.0.5",
     "redis": "^4.0.6",
     "uuid": "^8.3.2"
   },

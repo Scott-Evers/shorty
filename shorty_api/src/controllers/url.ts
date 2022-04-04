@@ -34,12 +34,15 @@ const create_url = (req: express.Request, res: express.Response) => {
     }
     url.permissions = [perms]
     let id = model.create_url(url)
-    res.send(id)
+    console.log(id)
+    res.status(200).send(id)
   } catch (err) {
     console.error(err)
     res.status(500).send('An error occurred')
   }
 }
+
+
 
 const patch_url = (req: express.Request, res: express.Response) => {
   //TODO: validate the user can create in this domain
