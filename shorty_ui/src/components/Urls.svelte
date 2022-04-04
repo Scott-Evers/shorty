@@ -2,7 +2,7 @@
   import axios from 'axios'
   import { createEventDispatcher } from 'svelte'
   import { AlertModesEnum, AlertSeverityLevelsEnum, UrlType } from '../types/types'
-  import urls from '../stores/urls'
+  import {urls} from '../stores/store.js'
   
   const dispatch = createEventDispatcher()
 

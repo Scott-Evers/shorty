@@ -4,6 +4,8 @@
   "private": true,
   "scripts": {
     "build": "rollup -c",
+    "package": "npm run build; cd ..; docker build -t shorty-ui -f Dockerfile_shorty-ui .; cd shorty_ui/",
+    "prod": "npm run package; docker stop shorty-ui; docker rm shorty-ui; docker run --name shorty-ui -d -p 3000:3000 shorty-ui",
     "dev": "rollup -c -w",
     "start": "sirv public --single --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
@@ -34,7 +36,6 @@
     "jmespath": "^0.16.0",
     "jsonwebtoken": "^8.5.1",
     "jwk-to-pem": "^2.0.5",
-    "page": "^1.11.6",
     "sirv-cli": "^2.0.0",
     "uuid": "^8.3.2"
   }

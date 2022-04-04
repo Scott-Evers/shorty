@@ -1,11 +1,12 @@
 <script lang="ts">
-	import router from 'page'
-	import Admin from './routes/Admin.svelte'
-	import PostLogin from './routes/PostLogin.svelte'
+	import Admin from './pages/Admin.svelte'
+
+	import { id_token, session_id } from './stores/store.js'
+
+	import { token_isvalid, handle_post_auth } from './lib/auth.js'
 	//import './global.css'
 	
-	let session_id 	= localStorage.getItem('session_id')
-	let id_token 		= localStorage.getItem('id_token')
+
 
 	const idp_context = {
 			idp_host: 'involtasbx.auth.us-east-1.amazoncognito.com',
@@ -14,27 +15,20 @@
 		}
 
 
-	const token_isvalid = (id_token: string): boolean => {
-		let token_body = JSON.parse(atob(id_token.split('.')[1]))
-		console.log(token_body.exp > new Date().getTime() / 1000)
-		return true
-	}
+	// page logic
+	handle_post_auth(window.location.href,$session_id)
 
-	let page
-	if (token_isvalid(id_token)) {
-		// user is authenticated with a valid id_token
+	let authenticated = token_isvalid($id_token)
+	if (!authenticated) {
 
-
-		router('/admin', () => page = Admin)
-		router('/idp/response', () => page = PostLogin)
-		
-		router.start()
-	} else {
 		console.warn('ID token invalid')
 		window.location.href = 
-			 	`https://${idp_context.idp_host}/login?response_type=token&client_id=${idp_context.idp_client_id}&state=${session_id}&redirect_uri=http://localhost:8080/idp/response`
+			 	`https://${idp_context.idp_host}/login?response_type=token&client_id=${idp_context.idp_client_id}&state=${$session_id}&redirect_uri=${window.location.href}`
 
 	}
 	
 </script>
-<svelte:component this={page} />
+
+{#if authenticated}
+<Admin />
+{/if}

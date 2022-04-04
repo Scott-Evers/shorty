@@ -3,11 +3,13 @@
   import Urls from '../components/Urls.svelte'
   import Url from '../components/Url.svelte'
   import Alert from '../components/Alert.svelte'
-  import id_token from '../stores/id_token'
-  import urls from '../stores/urls'
+
+  import {id_token, session_id} from '../stores/store.js'
 
   import type { AlertType, LoggedInUserType, UrlType } from '../types/types';
   import { AlertModesEnum, AlertSeverityLevelsEnum } from '../types/types'
+
+  
 
   let alert: AlertType
   let url: UrlType
@@ -25,7 +27,6 @@
     full_name: `${token_body.given_name} ${token_body.family_name}`,
     initials: `${token_body.given_name.substring(0,1).toUpperCase()}${token_body.family_name.substring(0,1).toUpperCase()}`,
   }
-  console.log('page mode: ', page_mode)
 
   // event handlers to modify page layout
   const handle_edit = (e: CustomEvent<UrlType>): any => {
