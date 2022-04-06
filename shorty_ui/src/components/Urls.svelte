@@ -22,6 +22,7 @@
     } else {
       filtered_urls = $urls
     }
+    if (filtered_urls == null) filtered_urls = []
   }
 
   axios.get(`${API_BASE}/url`, {
@@ -29,7 +30,6 @@
       'Bearer': id_token
     }
   }).then(u => {
-      console.log(u)
       urls.set(u.data)
     }).catch(err => dispatch('alert', {
     message: `Unable to fetch urls for user: ${err.message}`,
@@ -51,7 +51,8 @@
       message: 'deleting...',
       mode: AlertModesEnum.Pending,
     })
-    axios.delete(`${API_BASE}/url/${e}`, {
+    console.log('delete_item event:',e)
+    axios.delete(`${API_BASE}/url/${e.id}`, {
     headers: {
       'Bearer': id_token
     }
@@ -83,7 +84,7 @@
         <div><a href="{short_url(url.host,url.token)}" target="_new">{short_url(url.host,url.token)}</a></div>
         <div><a href="{url.target}" target="_new">{url.target}</a></div>
         <button class="material-icons md-24 md-light"
-              on:click={() => delete_item(url.id)}>delete</button>
+              on:click={() => delete_item(url)}>delete</button>
       </div>
     {/each}
   </div>

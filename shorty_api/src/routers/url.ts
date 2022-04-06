@@ -15,7 +15,6 @@ router.patch('/:id', url.patch_url)
 router.delete('/:id', url.delete_url)
 router.get('/:id', (req, res) => {
   //TODO fix to fetch single URL
-  res.send('urls')
 })
 
 export default router

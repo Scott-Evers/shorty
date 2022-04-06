@@ -1,6 +1,7 @@
 import express from 'express'
 import cors from 'cors'
 import url from './routers/url.js'
+import user from './routers/user.js'
 import { validate_token } from './auth.js'
 
 const app = express()
@@ -16,5 +17,6 @@ app.use(validate_token)
 
 // object routes
 app.use(`${API_VERSION}url`, url)
+app.use(`${API_VERSION}user`, user)
 
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`))

@@ -20,3 +20,10 @@ export interface Permission {
   id: string,
   operation: Operation_Types,
 }
+
+export type PrincipalType = {
+  id: string,
+  name: string,
+  type: Principal_Types
+  memberships: any
+}

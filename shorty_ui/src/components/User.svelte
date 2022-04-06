@@ -2,7 +2,7 @@
 import type { LoggedInUserType} from "../types/types";
 
 
-  export let user: LoggedInUser
+  export let user: LoggedInUserType
 
 </script>
 <div class="namebox">

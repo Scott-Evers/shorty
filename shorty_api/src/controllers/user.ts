@@ -4,14 +4,19 @@ import {UrlType,
         Permission, 
         Principal_Types, 
         Operation_Types} from '../types/types.spec.js'
+import type { PrincipalType } from '../types/types.spec.js'
 
-const get_owned_urls = async (req: express.Request, res: express.Response) => {
-  let user: string = req.headers['user'] as string
-  let groups: Array<string> = req.headers['groups'] as Array<string>
+const get_user = async (req: express.Request, res: express.Response) => {
+  let user_id: string = req.headers['user'] as string
   try {
-    let urls: Array<UrlType> = await model.get_owned_urls(user, groups)
-    
-    res.send(JSON.stringify(urls))
+    let user: Array<any> = await model.get_principal(user_id)
+    let r: PrincipalType = {
+      id: user[0].immutable,
+      name: user[0].name,
+      type: user[0].type,
+      memberships: []
+    }
+    res.send(JSON.stringify(r))
   }
   catch (err) {
     console.error(err)
@@ -19,7 +24,7 @@ const get_owned_urls = async (req: express.Request, res: express.Response) => {
   }
 }
 
-const create_url = (req: express.Request, res: express.Response) => {
+const create_user = (req: express.Request, res: express.Response) => {
   //TODO: validate the user can create in this domain
   //TODO: validate the entry does not already exist
   try{
@@ -42,9 +47,7 @@ const create_url = (req: express.Request, res: express.Response) => {
   }
 }
 
-
-
-const patch_url = (req: express.Request, res: express.Response) => {
+const put_user = (req: express.Request, res: express.Response) => {
   //TODO: validate the user can create in this domain
   //TODO: validate the entry does not already exist
   try{
@@ -66,30 +69,9 @@ const patch_url = (req: express.Request, res: express.Response) => {
   }
 }
 
-const delete_url = (req: express.Request, res: express.Response) => {
-  let user: string = req.headers['user'] as string
-  let groups: Array<string> = req.headers['groups'] as Array<string>
-  try{
-    let id = req.params.id
-    //TODO: validate the user can delete this record
-    console.log('DELETE /url called with id:', id)
-    model.delete_url({
-      id: id,
-      host: '',
-      token: '',
-      target: '',
-      permissions: [],
-    })
-    res.send('Record successfully deleted')
-  } catch (err) {
-    console.error(err)
-    res.status(500).send('An error occurred')
-  }
-}
 
 export default {
-  get_owned_urls,
-  create_url,
-  patch_url,
-  delete_url,
+  get_user,
+  create_user,
+  put_user,
 }

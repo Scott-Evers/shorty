@@ -19,6 +19,7 @@
     Create,
   }
   let page_mode: page_modes = page_modes.View
+  console.log('defaulting page mode to 0')
   let token_body = JSON.parse(atob($id_token.split('.')[1]))
   let user: LoggedInUserType = {
     id_token: $id_token,
@@ -37,7 +38,7 @@
   const handle_create = (): any => {
     url = { id: '', host: '', token: '', target: '', permissions: []}
     page_mode = page_modes.Create
-    console.log(`Creating new url`)
+    console.log(`Creating new url`, page_mode)
   }
   const handle_delete = (id: string): any => {
     console.log(`Deleting url: ${id}`)
