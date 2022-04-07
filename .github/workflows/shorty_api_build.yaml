@@ -35,10 +35,10 @@ jobs:
 
     steps:
     - name: Set TAG environment variable to latest for master branch
-      if: $GITHUB_REF_NAME == 'main'
+      if: env.GITHUB_REF_NAME == 'main'
       run: export TAG=latest
     - name: Set TAG environment variable to latest for master branch
-      if: $GITHUB_REF_NAME == 'main'
+      if: env.GITHUB_REF_NAME == 'main'
       run: export TAG=$GITHUB_REF_NAME
     - uses: actions/checkout@v3
     - name: Retrieve built javascript from cache
