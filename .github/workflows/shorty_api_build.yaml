@@ -3,6 +3,7 @@ name: Shorty API CI
 on:
   push
 
+
 jobs:
   build-api:
 
@@ -33,6 +34,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Set TAG environment variable to latest for master branch
+      if: $GITHUB_REF_NAME == 'main'
+      run: export TAG=latest
+    - name: Set TAG environment variable to latest for master branch
+      if: $GITHUB_REF_NAME == 'main'
+      run: export TAG=$GITHUB_REF_NAME
     - uses: actions/checkout@v3
     - name: Retrieve built javascript from cache
       uses: actions/cache@v3
@@ -41,5 +48,5 @@ jobs:
         key: API_CODE
     - run: docker build -t shorty-api -f Dockerfile_shorty-api .
     - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_SECRET }}
-    - run: docker tag shorty-api scottaevers/shorty-api:$GITHUB_REF_NAME
-    - run: docker push scottaevers/shorty-api:$GITHUB_REF_NAME
+    - run: docker tag shorty-api scottaevers/shorty-api:$TAG
+    - run: docker push scottaevers/shorty-api:$TAG
