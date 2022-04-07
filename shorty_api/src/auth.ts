@@ -1,4 +1,3 @@
-import { AliasExistsException } from '@aws-sdk/client-cognito-identity-provider'
 import express from 'express'
 import axios from 'axios'
 import jwt from 'jsonwebtoken'
