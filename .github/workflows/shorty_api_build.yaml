@@ -18,11 +18,7 @@ jobs:
     - run: pwd
     - run: ls -al
     - run: cd shorty_api
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+    - run: npm install -P
     - run: npm run ts:build
     - run: cd ..
     - run: docker build -t shorty-api -f Dockerfile_shorty-api .
