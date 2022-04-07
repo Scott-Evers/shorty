@@ -14,6 +14,8 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
+    - run: pwd
+    - run: ls -al
     - run: cd shorty_api
     - uses: actions/checkout@v3
     - name: Use Node.js ${{ matrix.node-version }}
