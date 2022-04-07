@@ -15,10 +15,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - run: pwd
-    - run: ls -al
-    - run: cd shorty_api
-    - run: npm install -P
-    - run: npm run ts:build
-    - run: cd ..
+    - name: Use Node.js ${{ matrix.node-version }}
+      working-directory: ./shorty_api
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - name: Compile typescript
+      working-directory: ./shorty_api
+      run: npm run ts:build
     - run: docker build -t shorty-api -f Dockerfile_shorty-api .
