@@ -30,5 +30,5 @@ jobs:
     steps:
     - run: docker build -t shorty-api -f Dockerfile_shorty-api .
     - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_SECRET }}
-    - run: docker tag shorty-api scottaevers/shorty-api:${{ GITHUB_REF }}
-    - run: docker push scottaevers/shorty-api:${{ GITHUB_REF }}
+    - run: docker tag shorty-api scottaevers/shorty-api:${{ github.ref }}
+    - run: docker push scottaevers/shorty-api:${{ github.ref }}
