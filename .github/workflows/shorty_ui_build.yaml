@@ -1,0 +1,52 @@
+name: Shorty UI CI
+
+on:
+  push
+
+
+jobs:
+  build-ui:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Install node packages
+      working-directory: ./shorty_ui
+      run: npm i -P
+    - name: Compile typescript
+      working-directory: ./shorty_ui
+      run: npm run build
+    - name: Cache built javascript
+      uses: actions/cache@v3
+      with:
+        path: .
+        key: UI_CODE
+
+  deploy-to-dockerhub:
+    needs: build-ui
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Set TAG environment variable to latest for master branch
+      if: env.GITHUB_REF_NAME == 'main'
+      run: echo "TAG=latest" >> $GITHUB_ENV
+    - name: Set TAG environment variable to latest for master branch
+      if: env.GITHUB_REF_NAME != 'main'
+      run: echo "TAG=$GITHUB_REF_NAME" >> $GITHUB_ENV
+    - uses: actions/checkout@v3
+    - name: Retrieve built javascript from cache
+      uses: actions/cache@v3
+      with:
+        path: .
+        key: API_CODE
+    - run: docker build -t shorty-ui -f Dockerfile_shorty-ui .
+    - run: docker login -u ${{ secrets.DOCKER_HUB_USER }} -p ${{ secrets.DOCKER_HUB_SECRET }}
+    - run: docker tag shorty-ui scottaevers/shorty-ui:$TAG
+    - run: docker push scottaevers/shorty-ui:$TAG
