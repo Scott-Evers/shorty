@@ -1,0 +1,58 @@
+replicaCount: 3
+
+image:
+  repository: nginx
+  pullPolicy: IfNotPresent
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+
+
+namespace: shorty
+
+services:
+  - port: 80
+    name: "api"
+    targetPort: 5002
+  - port: 80
+    name: "ui"
+    targetPort: 3000
+
+deployments:
+  - name: "api"
+    image: "shorty-api"
+    containerPort: 5002
+  - name: "ui"
+    image: "shorty-ui"
+    containerPort: 3000
+  - name: "db"
+    image: "shorty-mysql"
+    containerPort: 33060
+
+
+
+
+
+
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 10
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80

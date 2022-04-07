@@ -1,0 +1,4 @@
+{{- range $.Values.services }}
+  {{$data := dict "service" . "Values" $.Values "Chart" $.Chart "Release" $.Release }}
+  {{- template "shorty.service" $data }}
+{{- end }}
